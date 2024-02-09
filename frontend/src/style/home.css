@@ -1,0 +1,42 @@
+#home {
+  height: 100vh;
+  display: flex;
+}
+
+#home section {
+  height: 100%;
+}
+
+#left-home {
+  padding: 10px 0px 0px 30px;
+  color: var(--light-purple);
+  width: 60%;
+  background-color: var(--purple);
+}
+
+nav {
+  font-size: 23px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+#left-home img {
+  background: transparent;
+  height: 50px;
+  margin-left: -10px;
+}
+
+#right-home {
+  width: 40%;
+  background-color: black;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  font-size: 25px;
+  font-weight: 700;
+}
