@@ -7,6 +7,7 @@ export function verifyToken(req: Request, res: Response, next: NextFunction) {
     jwt.verify(token, process.env.COOKIE_SECRET, (err, payload) => {
         if (err) return res.sendStatus(403)
         res.locals.user = payload  
+        // console.log(res.locals.user)
         next()
     })
 }
