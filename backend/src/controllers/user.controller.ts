@@ -1,6 +1,6 @@
 import bcrypt from 'bcrypt'
 import { NextFunction, Request, Response } from 'express'
-import User from '../model/User.js'
+import {User} from '../model/User.js'
 import jwt from 'jsonwebtoken'
 
 type payload = {
@@ -31,7 +31,7 @@ export const userSignUp = async (req: Request, res: Response, next: NextFunction
         res.cookie(process.env.COOKIE_NAME, token, {
             signed: true,
             httpOnly: true,
-            maxAge: 1000 * 60, // expiry date
+            maxAge: 1000 * 60 * 60 * 24 * 7, // expiry date
         })
 
         return res.status(201).json({username, password, message: 'ok'})
@@ -59,10 +59,9 @@ export const userLogIn = async (req: Request, res: Response, next: NextFunction)
         res.cookie(process.env.COOKIE_NAME, token, {
             signed: true,
             httpOnly: true,
-            maxAge: 1000 * 60, // expiry date
+            maxAge: 1000 * 60 * 60 * 24 * 7, // expiry date
         })
-        // return res.status(200).send("Logged In successfully")
-        next()
+        return res.status(200).send("Logged In successfully")
     } catch (e) {
         return res.status(401).send(`Error loggin in", ${e.message}`)
     }
