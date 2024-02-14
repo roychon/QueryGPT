@@ -3,6 +3,7 @@ import dotenv from "dotenv"
 import mongoose from "mongoose"
 import userRouter from './routers/userRouter.js'
 import cookieParser from "cookie-parser"
+import chatRouter from "./routers/chatRouter.js"
 
 dotenv.config()
 const app = express()
@@ -12,10 +13,11 @@ const MONGODB_URL: string = process.env.MONGODB_URL
 
 // middleware
 app.use(express.json())
-app.use(cookieParser("7dce94a7803a7505213ac591dcc9263290654fb9a8f3f2c3d73f83088e634d5ffcc2f7eb68130a0380768f9ede5aa3dd2ec59d61c461ded4e2c70d3263870e0b"))
+app.use(cookieParser(process.env.COOKIE_SECRET))
 
 // routes
 app.use("/user", userRouter)
+app.use("/chat", chatRouter)
 
 // start server + connect to db
 app.listen(PORT_NUM, async () => {
