@@ -1,10 +1,12 @@
 #home {
   height: 100vh;
+  min-width: 100vw;
   display: flex;
 }
 
 #home section {
   height: 100%;
+  width: 100%;
 }
 
 #left-home {

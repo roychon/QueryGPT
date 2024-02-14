@@ -7,13 +7,14 @@ import Form from './components/Form'
 
 function App() {
   // TODO: add * route and error not found page
-  const [count, setCount] = useState(0)
+  // const [count, setCount] = useState(0)
   
   return (
     <Router>
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/signup" element={<Form text="signup" />} /> {/*TODO: create separate pages for signup and login */}
+        <Route path="/login" element={<Form text="login" />} /> {/*TODO: create separate pages for signup and login */}
       </Routes>
     </Router>
   )

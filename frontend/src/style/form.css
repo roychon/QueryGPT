@@ -70,6 +70,10 @@ body {
     width: 100%;
 }
 
+#sign-up-btn:hover {
+    background-color: rgb(101, 104, 249);
+}
+
 .form-input {
     width: 100%;
     display: flex;

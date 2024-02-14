@@ -15,7 +15,8 @@ function Form({text}: FormInput) {
         node.focus()
     }, [login])
 
-// TODO: have password eye part, add ref for username and focus it on useEffect, create legend for input form, add google auth login section
+// TODO: add backend functionality, add google auth login section
+// TODO: add states for username, password and add onSubmit event handler, where you fetch to backend using axios
     return ( 
         <form id="form">
             <section className="form-wrapper">
