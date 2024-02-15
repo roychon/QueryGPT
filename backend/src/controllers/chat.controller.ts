@@ -10,13 +10,14 @@ type chat = {
     chatPair: [String, String]
 } 
 
-
+// pass in prompt + thread id
 export const generateAIResponse = async (req: Request, res: Response, next: NextFunction) => {
 
     try {
         const llm = new ChatOpenAI({})
-        const  { prompt }: { prompt: String } = req.body
-        const user = await User.findOne({username: res.locals.user.username})
+        const  { prompt, threadId }: { prompt: String, threadId: String } = req.body
+        const user = await User.findOne({username: res.locals.user.username })
+        const thread = user.threads.find(thread => thread._id.toString() == threadId)
         
         // get all user's chats to store in conversation summary buffer
         const memory = new ConversationSummaryBufferMemory({
@@ -27,7 +28,7 @@ export const generateAIResponse = async (req: Request, res: Response, next: Next
 
         // TODO: take into account when chats array is null
         
-        for (const {user:userChats, system:systemChats} of user.chats) {
+        for (const {user:userChats, system:systemChats} of thread.conversationPairs) {
             memory.saveContext({input: userChats.content}, {output: systemChats.content})
         }
 
@@ -51,7 +52,7 @@ export const generateAIResponse = async (req: Request, res: Response, next: Next
             })
         })
 
-        user.chats.push(userChat)
+        thread.conversationPairs.push(userChat)
         await user.save()
 
         return res.status(201).send(ai_response)
@@ -71,8 +72,6 @@ export const getUserChats = async (req: Request, res: Response, next: NextFuncti
     }
 }
 
-// edit a conversation pair
-
 
 // helpers
 const getSortedUserChats = async (username: String) => {
@@ -80,15 +79,23 @@ const getSortedUserChats = async (username: String) => {
         // TODO: make this a method in schema, use aggregate instead
         const sortedChats = await User.aggregate([
             { $match: { username } }, // Match the user by username
-            { $unwind: "$chats" }, // Deconstruct the chats array
-            { $sort: { "chats.updatedAt": -1 } }, // Sort chats by updatedAt field in descending order
-            { $group: { _id: "$_id", chats: { $push: "$chats" } } } // Group the chats back into an array
+            { $unwind: "$threads" }, // Deconstruct the threads array
+            { $unwind: "$threads.conversationPairs" }, // Deconstruct the conversationPairs array within each thread
+            { $sort: { "threads.conversationPairs.updatedAt": -1 } }, // Sort conversationPairs by updatedAt field in descending order
+            {
+                $group: {
+                    _id: "$_id",
+                    threads: { $push: "$threads" } // Push the sorted threads back into an array
+                }
+            }, {
+                $project: {
+                    _id: 0,
+                }
+            }
         ]);
         
-        console.log(sortedChats);
-        
 
-        return sortedChats
+        return sortedChats[0].threads
     } catch (e) {
         return e.message // TODO: figure out what to do here
     }
