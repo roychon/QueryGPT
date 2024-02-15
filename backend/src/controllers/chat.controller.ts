@@ -1,116 +1,95 @@
 import { ChatOpenAI } from "@langchain/openai"
 import { Request, Response, NextFunction } from "express"
 import { ConversationSummaryBufferMemory } from "langchain/memory";
-import {User, Chat} from "../model/User.js"
+import {User, ConversationPair, Chat} from "../model/User.js"
 import { ConversationChain } from "langchain/chains";
+import { rmSync } from "fs";
 
 type chat = {
     _id?: String,
     chatPair: [String, String]
 } 
 
-// TODO: make finding all the user chats a separate function, less duplication of code
-export const getUserChats = async (req: Request, res: Response, next: NextFunction) => {
-    try {
-        const userChats = await getAllUserChats(res.locals.user.username)
-        return res.status(201).json(userChats)
-    } catch (e) {
-        return res.status(400).send(e.message)
-    }
-}
 
-// POST req
 export const generateAIResponse = async (req: Request, res: Response, next: NextFunction) => {
+
     try {
-        const { prompt } = req.body
-
-        const ai_response = await getAIResponse(res.locals.user.username, prompt)
-        // console.log(ai_response)
+        const llm = new ChatOpenAI({})
+        const  { prompt }: { prompt: String } = req.body
+        const user = await User.findOne({username: res.locals.user.username})
         
-        // TODO: make this a method in schema
-        const user = await User.findOne({
-            username: res.locals.user.username
-        })
-        if (!user) return res.status(401).send("Please log in") // TODO: test this
-        
-        const newUserChat = new Chat({
-            content: prompt,
-            role: "User"
+        // get all user's chats to store in conversation summary buffer
+        const memory = new ConversationSummaryBufferMemory({
+            llm: llm,
+            maxTokenLimit: 100,
+            aiPrefix: "AI Assistant"
         })
 
-        user.chats.push(newUserChat)
-        await user.save()
+        // TODO: take into account when chats array is null
         
-        const newUser = await User.findOne({username: res.locals.user.username})
-        const chatId = newUser.chats.slice(-1)[0].chatId
-        const newAIChat = new Chat({
-            content: ai_response.response,
-            role: "System",
-            chatId: chatId
-        })
-
-        user.chats.push(newAIChat)
-        await user.save()
-        return res.status(201).send("success")
-    } catch (e) {
-        return res.status(401).send
-    }
-
-}
-
-// helpers
-const getAIResponse = async (username: String, prompt: String) => {
-    const llm = new ChatOpenAI({})
-    // TODO: index this or find a way to store this for efficiency
-    const userChats = await getAllUserChats(username)
-    // create a conversational chatbot:
-    const memory = new ConversationSummaryBufferMemory({
-        llm: llm,
-        maxTokenLimit: 100,
-        aiPrefix: "AI Assistant"
-    })
-
-    for (const {chatPair} of userChats) {
-        await memory.saveContext({ input: chatPair[0]}, { output: chatPair[1]})
-    }
-
-    // const history = await memory.loadMemoryVariables()
-    
-    // Initialize the conversation chain with the model, memory, and prompt
-    const chain = new ConversationChain({
-        llm: llm,
-        memory: memory,
-        // verbose: false
-    });
-
-    const ai_response = await chain.invoke({input: prompt})
-    return ai_response
-}
-
-const getAllUserChats = async (username: String) => {
-    const userChats = await User.aggregate([
-        {
-            $match: { "username": username }
-        },
-        {
-            $unwind: "$chats" // treat each element in the chats array as singularly
-        },
-        {
-            $group: {
-                _id: "$chats.chatId",
-                chatPair: {
-                    $push: "$chats.content"
-                }
-            }
-        },
-        {
-            $sort: {
-                "chats.chatId": -1
-            }
+        for (const {user:userChats, system:systemChats} of user.chats) {
+            memory.saveContext({input: userChats.content}, {output: systemChats.content})
         }
 
-    ]);
+        // Initialize the conversation chain with the model, memory, and prompt
+        const chain = new ConversationChain({
+            llm: llm,
+            memory: memory,
+            // verbose: false
+        });
 
-    return userChats
+        const ai_response = await chain.invoke({input: prompt})
+        
+        const userChat = new ConversationPair({
+            user: new Chat({
+                content: prompt,
+                role: "User"
+            }),
+            system: new Chat({
+                content: ai_response.response,
+                role: "System"
+            })
+        })
+
+        user.chats.push(userChat)
+        await user.save()
+
+        return res.status(201).send(ai_response)
+    } catch (e) {
+        return res.status(401).send(e.message)
+    }
     
+}
+
+// get all chats
+export const getUserChats = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const chats = await getSortedUserChats(res.locals.user.username)
+        return res.status(201).json(chats)
+    } catch (e) {
+        return res.status(401).send(e.message)
+    }
+}
+
+// edit a conversation pair
+
+
+// helpers
+const getSortedUserChats = async (username: String) => {
+    try {
+        // TODO: make this a method in schema, use aggregate instead
+        const sortedChats = await User.aggregate([
+            { $match: { username } }, // Match the user by username
+            { $unwind: "$chats" }, // Deconstruct the chats array
+            { $sort: { "chats.updatedAt": -1 } }, // Sort chats by updatedAt field in descending order
+            { $group: { _id: "$_id", chats: { $push: "$chats" } } } // Group the chats back into an array
+        ]);
+        
+        console.log(sortedChats);
+        
+
+        return sortedChats
+    } catch (e) {
+        return e.message // TODO: figure out what to do here
+    }
 }
