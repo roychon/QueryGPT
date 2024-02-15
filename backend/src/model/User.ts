@@ -25,6 +25,9 @@ const conversationPairSchema = new mongoose.Schema({
     }
 }, { collection: 'conversationPair'})
 
+const threadSchema = new mongoose.Schema({
+    conversationPairs: [conversationPairSchema]
+}, { collection: 'threads '})
 
 
 // Define the user schema
@@ -38,14 +41,14 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    chats: [conversationPairSchema]
+    threads: [threadSchema]
 }, { collection: 'users' });
 
 // middleware
 conversationPairSchema.pre('save', function(next) {
     if (this.isNew) {
         this.updatedAt = new Date();
-        console.log(this.updatedAt) // TODO: remove console.log 
+        console.log("Inside model middleware", this) // TODO: remove console.log 
     }
     next();
 });
@@ -54,3 +57,4 @@ conversationPairSchema.pre('save', function(next) {
 export const User = mongoose.model("User", userSchema)
 export const ConversationPair = mongoose.model("ConversationPair", conversationPairSchema)
 export const Chat = mongoose.model("Chat", chatSchema)
+export const Thread = mongoose.model("Thead", threadSchema)
