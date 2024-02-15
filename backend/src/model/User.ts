@@ -1,48 +1,30 @@
 import mongoose from "mongoose";
 
-// Define a schema for the counter collection
-const CounterSchema = new mongoose.Schema({
-    _id: { type: String, required: true },
-    seq: { type: Number, default: 0 }
-});
 
-// Create a model for the counter collection
-const Counter = mongoose.model('counter', CounterSchema);
-
-// Define the schema for the chat collection
 const chatSchema = new mongoose.Schema({
-    chatId: {
-        type: String // No need to specify a default value here
-    },
     content: {
         type: String,
         required: true
     },
     role: {
-        type: String,
-        required: true // TODO: add validator so it is only of "User" or "System"
-    },
-});
-
-// Define a pre-save middleware for chatSchema to generate auto-incrementing chat IDs
-chatSchema.pre('save', async function(next) {
-    const doc = this;
-    console.log("inside virtual method", doc)
-    try {
-        if (!doc.chatId) {
-            // Find and increment the counter for chat IDs
-            let counter = await Counter.findOneAndUpdate({ _id: 'chatId' }, { $inc: { seq: 1 } }, { new: true, upsert: true });
-            if (!counter) {
-                // If the counter document doesn't exist, create it with seq set to 1
-                counter = await Counter.create({ _id: 'chatId', seq: 1 });
-            }
-            doc.chatId = counter.seq.toString(); // Assign the incremented value as chatId
-        }
-        next();
-    } catch (error) {
-        next(error);
+        type: String, // TODO: add a validator to have this be one of 'User' or 'System'
+        required: true
     }
-});
+}, { collection: 'chats' })
+
+const conversationPairSchema = new mongoose.Schema({
+    user: {
+        type: chatSchema
+    },
+    system: {
+        type: chatSchema
+    },
+    updatedAt: {
+        type: Date,
+        default: Date.now
+    }
+}, { collection: 'conversationPair'})
+
 
 
 // Define the user schema
@@ -56,9 +38,19 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    chats: [chatSchema]
+    chats: [conversationPairSchema]
 }, { collection: 'users' });
 
-// Create models for User and Chat
-export const User = mongoose.model('user', userSchema);
-export const Chat = mongoose.model('chat', chatSchema);
+// middleware
+conversationPairSchema.pre('save', function(next) {
+    if (this.isNew) {
+        this.updatedAt = new Date();
+        console.log(this.updatedAt) // TODO: remove console.log 
+    }
+    next();
+});
+
+
+export const User = mongoose.model("User", userSchema)
+export const ConversationPair = mongoose.model("ConversationPair", conversationPairSchema)
+export const Chat = mongoose.model("Chat", chatSchema)
