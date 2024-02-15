@@ -1,6 +1,6 @@
 import bcrypt from 'bcrypt'
 import { NextFunction, Request, Response } from 'express'
-import {User} from '../model/User.js'
+import { User, Chat } from '../model/User.js'
 import jwt from 'jsonwebtoken'
 
 type payload = {
@@ -20,7 +20,30 @@ export const userSignUp = async (req: Request, res: Response, next: NextFunction
             signed: true,
         })
         const hashedPw = await bcrypt.hash(password, 10)
-        const newUser = new User({username, password: hashedPw})
+        const newUser = new User({username, password: hashedPw, chats: [
+            {
+                user: new Chat({
+                    content: "What is 1 + 1?",
+                    role: "User"
+                }),
+                system: new Chat({
+                    content: "1 + 1 is 2",
+                    role: "System"
+                })
+
+            },
+            {
+                user: new Chat({
+                    content: "What is the capital of Canada?",
+                    role: "User"
+                }),
+                system: new Chat({
+                    content: "The capital of Canada is Ottawa",
+                    role: "System"
+                })
+
+            },
+        ]})
         await newUser.save()
 
 
