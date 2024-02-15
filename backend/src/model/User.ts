@@ -12,6 +12,7 @@ const chatSchema = new mongoose.Schema({
     }
 }, { collection: 'chats' })
 
+// TODO: have AI come up with title of chat from prompt
 const conversationPairSchema = new mongoose.Schema({
     user: {
         type: chatSchema
@@ -26,6 +27,10 @@ const conversationPairSchema = new mongoose.Schema({
 }, { collection: 'conversationPair'})
 
 const threadSchema = new mongoose.Schema({
+    title: {
+        type: String,
+        default: "New chat"
+    },
     conversationPairs: [conversationPairSchema]
 }, { collection: 'threads '})
 
