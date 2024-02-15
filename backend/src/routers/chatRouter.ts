@@ -5,7 +5,7 @@ import { verifyToken } from "../validate/verifyToken.js"
 const chatRouter = Router()
 
 chatRouter.post("/", verifyToken, generateAIResponse)
-// chatRouter.put("/", verifyToken, editChatMessage)
+chatRouter.put("/", verifyToken, generateAIResponse) // edit: just send newly edited message as entirely new message
 chatRouter.get("/", verifyToken, getUserChats)
 
 export default chatRouter
