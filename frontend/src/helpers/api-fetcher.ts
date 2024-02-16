@@ -27,3 +27,13 @@ export const loginUser = async (username: String, password: String) => {
     }
 }
 
+export const checkAuthStatus = async () => {
+    try {
+        const res = await axios.get("/user/checkAuthStatus")
+        const data = await res.data
+        return data
+    } catch (e) {
+        throw new Error(e.message)
+    }
+}
+

@@ -25,7 +25,6 @@ export const userSignUp = async (req: Request, res: Response, next: NextFunction
         const newUser = new User({username, password: hashedPw})
         await newUser.save()
 
-
         // create jwt token and send back to user
         const payload: payload = {username, password}
         const token = jwt.sign(payload, process.env.COOKIE_SECRET, {expiresIn: process.env.COOKIE_EXPIRY || '7d'})
@@ -83,5 +82,15 @@ export const userLogOut = async (req: Request, res: Response, next: NextFunction
        }) 
     } catch (e) {
         console.log(e.message)
+    }
+}
+
+export const verifyUser = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const user = await User.findOne({username: res.locals.user.username})
+        if (!user) return res.status(401).send("User doesn't exist or token malfunctioned")
+        return res.status(201).json({username: res.locals.user.username, password: res.locals.user.password})
+    } catch (e) {
+        return res.status(400).send(e.message)
     }
 }

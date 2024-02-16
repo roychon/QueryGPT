@@ -15,7 +15,7 @@ const MONGODB_URL: string = process.env.MONGODB_URL
 // middleware
 app.use(express.json())
 app.use(cookieParser(process.env.COOKIE_SECRET))
-app.use(cors({origin: "http://localhost:5173", credentials: true}))
+app.use(cors({origin: "http://localhost:5173", credentials: true})) // TODO: review why u need credentials + cors
 
 // routes
 app.use("/user", userRouter)

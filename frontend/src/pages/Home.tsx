@@ -1,7 +1,9 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {useTypewriter, Cursor} from 'react-simple-typewriter'
 import HomeButton from "../components/Button";
 import "../style/home.css";
+import { useAuth } from "../context/authContext";
+import { useNavigate } from "react-router-dom";
 
 function Home() {
     // TODO: make the context come from ai
@@ -12,6 +14,18 @@ function Home() {
         deleteSpeed: 20,
         delaySpeed: 2000
     })
+
+    const auth = useAuth()
+    const navigate = useNavigate()
+    console.log(auth)
+
+    // if logged in (cookies are verified), take them to chats section straight away
+    useEffect(() => {
+        if (auth?.isLoggedIn) {
+            navigate("/chats")
+        }
+    }, [auth?.isLoggedIn])
+
     return ( 
         <section id="home">
             <section id={"left-home"}>

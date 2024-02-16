@@ -16,6 +16,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/signup" element={<SignUpForm />} /> {/*TODO: create separate pages for signup and login */}
         <Route path="/login" element={<LogInForm />} />
+        <Route path="/chats" element={<p>Chats section</p>} />
       </Routes>
     </Router>
   )

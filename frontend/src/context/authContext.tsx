@@ -1,5 +1,5 @@
-import React, { ReactNode, createContext, useContext, useState } from "react";
-import { loginUser, signupUser } from "../helpers/api-fetcher";
+import React, { ReactNode, createContext, useContext, useEffect, useState } from "react";
+import { checkAuthStatus, loginUser, signupUser } from "../helpers/api-fetcher";
 
 type User = {
     username: String,
@@ -20,6 +20,21 @@ export function AuthProvider({children} :{ children: ReactNode}) {
     // have isLoggedIn, user object, and functions 
     const [user, setUser] = useState<User | null>(null)
     const [isLoggedIn, setIsLoggedIn] = useState(false)
+
+    // initial authCheck if cookies
+    useEffect(() => {
+        const initialAuthCheck = async () => {
+            try {
+                const res = await checkAuthStatus()
+                setUser({username: res.username, password: res.password})
+                setIsLoggedIn(true)
+                console.log("In authContext.tsx: cookies successfully verified")
+            } catch (e) {
+                console.log(e.message)
+            }
+        }
+        initialAuthCheck()
+    }, [])
 
     const signup = async (username: String, password: String) => {
         try {

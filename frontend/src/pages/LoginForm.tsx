@@ -27,7 +27,7 @@ export default function LogInForm() {
             <section className="form-wrapper">
                 <img src="../public/appLogo.png" alt="VirtuAI logo" />
                 <section className="text" style={{marginTop: "-40px"}}>
-                    <h1>Create your account</h1>
+                    <h1>Welcome back</h1>
                     <p className="form-subtext">Please enter your details to log in</p>
                 </section>
                 <section className="form-input">
@@ -39,7 +39,7 @@ export default function LogInForm() {
                         <label htmlFor="password">Password</label>
                         <input type="text" id="password" placeholder="Password" onChange={e => setPassword(e.target.value)} required/>
                     </p>
-                    <button id="sign-up-btn" type="submit">Sign Up</button>
+                    <button id="sign-up-btn" type="submit">Log In</button>
                 </section>
                 <section className="link">
                     <p> Don't have an accout? </p>
