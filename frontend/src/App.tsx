@@ -3,7 +3,8 @@ import './App.css'
 import React from "react"
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom" // Import BrowserRouter, Route, and Routes
 import Home from './pages/Home'
-import Form from './components/Form'
+import SignUpForm from './pages/SignUpForm'
+import LogInForm from "./pages/LoginForm"
 
 function App() {
   // TODO: add * route and error not found page
@@ -13,8 +14,8 @@ function App() {
     <Router>
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/signup" element={<Form text="signup" />} /> {/*TODO: create separate pages for signup and login */}
-        <Route path="/login" element={<Form text="login" />} /> {/*TODO: create separate pages for signup and login */}
+        <Route path="/signup" element={<SignUpForm />} /> {/*TODO: create separate pages for signup and login */}
+        <Route path="/login" element={<LogInForm />} />
       </Routes>
     </Router>
   )

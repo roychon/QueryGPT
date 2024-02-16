@@ -3,7 +3,6 @@ import jwt from "jsonwebtoken"
 
 export function verifyToken(req: Request, res: Response, next: NextFunction) {
     const token = req.signedCookies[process.env.COOKIE_NAME]
-    console.log(token)
     if (token == null) return res.status(400).send("no cookie")
     jwt.verify(token, process.env.COOKIE_SECRET, (err, payload) => {
         if (err) return res.sendStatus(403)
