@@ -2,6 +2,8 @@ import bcrypt from 'bcrypt'
 import { NextFunction, Request, Response } from 'express'
 import { User, Chat, Thread } from '../model/User.js'
 import jwt from 'jsonwebtoken'
+import { verify } from 'crypto'
+import { verifyToken } from '../validate/verifyToken.js'
 
 type payload = {
     username: String,
@@ -20,32 +22,7 @@ export const userSignUp = async (req: Request, res: Response, next: NextFunction
             signed: true,
         })
         const hashedPw = await bcrypt.hash(password, 10)
-        const newUser = new User({username, password: hashedPw, threads: [
-           new Thread({conversationPairs:[
-            {
-                user: new Chat({
-                    content: "What is 1 + 1?",
-                    role: "User"
-                }),
-                system: new Chat({
-                    content: "1 + 1 is 2",
-                    role: "System"
-                })
-
-            },
-            {
-                user: new Chat({
-                    content: "What is the capital of Canada?",
-                    role: "User"
-                }),
-                system: new Chat({
-                    content: "The capital of Canada is Ottawa",
-                    role: "System"
-                })
-
-            },
-           ]})
-        ]})
+        const newUser = new User({username, password: hashedPw})
         await newUser.save()
 
 
@@ -67,28 +44,32 @@ export const userSignUp = async (req: Request, res: Response, next: NextFunction
 }
 
 export const userLogIn = async (req: Request, res: Response, next: NextFunction) => {
-    const { username, password } = req.body
     try {
+        const { username, password } = req.body
         const user = await User.findOne({username})
+        console.log(user)
         if (!user) return res.status(404).send("User does not exist")
         const compare = await bcrypt.compare(password, user.password)
-        if (!compare) return res.status(401).send("wrong password")
+        if (!compare) return res.status(401).send("Incorrect password")
         res.clearCookie(process.env.COOKIE_NAME, {
             signed: true,
-            httpOnly: true
+            httpOnly: true,
+            domain: "localhost",
+            path: "/"
         })
         // create jwt token and send back to user
         const payload: payload = {username, password}
         const token = jwt.sign(payload, process.env.COOKIE_SECRET, {expiresIn: process.env.COOKIE_EXPIRY || '7d'})
-        console.log(token)
         res.cookie(process.env.COOKIE_NAME, token, {
+            path: "/",
+            domain: "localhost",
             signed: true,
             httpOnly: true,
-            maxAge: 1000 * 60 * 60 * 24 * 7, // expiry date
+            maxAge: 1000 * 60 * 60 * 24 * 7, // expiry date,
         })
-        return res.status(200).send("Logged In successfully")
+        return res.status(200).json({username, password, message: "ok"})
     } catch (e) {
-        return res.status(401).send(`Error loggin in", ${e.message}`)
+        return res.status(401).send(`Error logging in", ${e.message}`)
     }
 }
 
