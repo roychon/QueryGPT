@@ -7,6 +7,6 @@ const userRouter  = express.Router()
 userRouter.post("/signup", userSignUp)
 userRouter.post("/login", userLogIn)
 userRouter.post("/logout", userLogOut)
-// userRouter.post("/cookies", userLogIn, verifyToken)
+userRouter.post("/checkAuthStatus", verifyToken) // TODO: add verifyUser function
 
 export default userRouter
