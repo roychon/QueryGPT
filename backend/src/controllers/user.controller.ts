@@ -73,15 +73,18 @@ export const userLogIn = async (req: Request, res: Response, next: NextFunction)
 }
 
 export const userLogOut = async (req: Request, res: Response, next: NextFunction) => {
-    const {username, password} = req.body
+    // const {username} = res.locals.user
     try {
-       const user = await User.find({username})
+    //    const user = await User.find({username})
        res.clearCookie(process.env.COOKIE_NAME, {
         signed: true,
         httpOnly: true,
+        path: "/",
+        domain: "localhost",
        }) 
+       return res.status(200).send("successful logout")
     } catch (e) {
-        console.log(e.message)
+        return res.status(401).send(e.message)
     }
 }
 
