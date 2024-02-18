@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useLayoutEffect } from "react";
 import {useTypewriter, Cursor} from 'react-simple-typewriter'
 import HomeButton from "../components/Button";
 import "../style/home.css";
@@ -17,10 +17,10 @@ function Home() {
 
     const auth = useAuth()
     const navigate = useNavigate()
-    console.log(auth)
+    // console.log(auth)
 
     // if logged in (cookies are verified), take them to chats section straight away
-    useEffect(() => {
+    useLayoutEffect(() => {
         if (auth?.isLoggedIn) {
             navigate("/chats")
         }
