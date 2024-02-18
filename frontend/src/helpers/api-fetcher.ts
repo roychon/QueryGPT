@@ -37,3 +37,12 @@ export const checkAuthStatus = async () => {
     }
 }
 
+export const logoutUser = async () => {
+    try {
+        const res = await axios.get("/user/logout")
+        const data = await res.data
+        return res
+    } catch (e) {
+        throw new Error(e.message)
+    }
+}
