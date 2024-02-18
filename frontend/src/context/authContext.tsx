@@ -1,5 +1,5 @@
 import React, { ReactNode, createContext, useContext, useEffect, useState } from "react";
-import { checkAuthStatus, loginUser, signupUser } from "../helpers/api-fetcher";
+import { checkAuthStatus, loginUser, logoutUser, signupUser } from "../helpers/api-fetcher";
 
 type User = {
     username: String,
@@ -10,7 +10,8 @@ type UserAuth = {
     user: User | null,
     isLoggedIn: boolean,
     signup: (username: String, password: String) => Promise<void>,
-    login: (username: String, password: String) => Promise<void>
+    login: (username: String, password: String) => Promise<void>,
+    logout: () => Promise<void>
 }
 
 // create type for context
@@ -57,11 +58,22 @@ export function AuthProvider({children} :{ children: ReactNode}) {
         }
     }
 
+    const logout = async () => {
+        try {
+            const res = await logoutUser()
+            setUser(null)
+            setIsLoggedIn(false)
+        } catch (e) {
+            throw new Error(e.message)
+        }
+    }
+
     const value = {
         user,
         isLoggedIn,
         signup,
-        login
+        login,
+        logout
     }
 
     return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
