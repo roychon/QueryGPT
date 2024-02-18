@@ -5,6 +5,7 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom" // Imp
 import Home from './pages/Home'
 import SignUpForm from './pages/SignUpForm'
 import LogInForm from "./pages/LoginForm"
+import Chats from './pages/Chats'
 
 function App() {
   // TODO: add * route and error not found page
@@ -16,7 +17,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/signup" element={<SignUpForm />} /> {/*TODO: create separate pages for signup and login */}
         <Route path="/login" element={<LogInForm />} />
-        <Route path="/chats" element={<p>Chats section</p>} />
+        <Route path="/chats" element={<Chats />} />
       </Routes>
     </Router>
   )
