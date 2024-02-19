@@ -28,7 +28,7 @@ const chatSchema = new mongoose.Schema({
 // Define a pre-save middleware for chatSchema to generate auto-incrementing chat IDs
 chatSchema.pre('save', async function(next) {
     const doc = this;
-    console.log("inside virtual method", doc)
+    // console.log("inside virtual method", doc)
     try {
         if (!doc.chatId) {
             // Find and increment the counter for chat IDs

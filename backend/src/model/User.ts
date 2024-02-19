@@ -53,7 +53,6 @@ const userSchema = new mongoose.Schema({
 conversationPairSchema.pre('save', function(next) {
     if (this.isNew) {
         this.updatedAt = new Date();
-        console.log("Inside model middleware", this) // TODO: remove console.log 
     }
     next();
 });
