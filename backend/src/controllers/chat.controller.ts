@@ -92,6 +92,21 @@ export const addThread = async (req: Request, res: Response, next: NextFunction)
 }
 
 
+export const getUserThreads = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const user = await User.findOne({ username: res.locals.user.username });
+        if (!user) return res.status(400).send("User is not registered");
+
+        // Extract thread IDs and titles from user's threads
+        const threads = user.threads.map(thread => ({ id: thread._id, title: thread.title }));
+
+        return res.status(201).json({ threads });
+
+    } catch (e) {
+        return res.status(401).send(e.message);
+    }
+};
+
 // helpers
 
 // get sorted chats by updatedAt date from a specific thread

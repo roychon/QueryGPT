@@ -3,6 +3,8 @@ import { useParams } from "react-router-dom"
 import Icon from "../components/Icons"
 import axios from "../helpers/axios"
 import ConversationPair from "../components/ConversationPair"
+import { CiEdit } from "react-icons/ci";
+import ChatHistory from "../components/ChatHistory"
 
 // TODO: lazy load these chats
 
@@ -27,11 +29,21 @@ import ConversationPair from "../components/ConversationPair"
 
 
 export default function ChatDetails() {
+    const [threads, setThreads] = useState<any[] | null>(null)
     const [conversationPairs, setConversationPairs] = useState<any[] | null>(null)
     const [prompt, setPrompt] = useState("")
     const {threadId} = useParams()
     const inputRef = useRef<HTMLInputElement | null>(null)
-    
+
+    useEffect(() => {
+        async function getThreads() {
+            const res = await axios.get("/chat/threads")
+            const data = await res.data
+            // console.log(data)
+            setThreads(data.threads)
+        }
+        getThreads()
+    }, [conversationPairs])
 
     const handlePromptSubmit = async (e) => {
         e.preventDefault()
@@ -62,17 +74,29 @@ export default function ChatDetails() {
             try {
                 const res = await axios.post("/chat/getUserChats", {threadId})
                 if (res.data) setConversationPairs(res.data)
+                else setConversationPairs(null)
             } catch (e) {
                 console.log(e.message)
             }
         }
         getThreadChats()
-    }, [])
+    }, [threadId])
 
     return (
         <section id="chats-container">
             <section id="sidebar">
-                <p>Sidebar</p>
+                <div id="new-thread-btn">
+                    <img src="../public/appLogo.png" alt="VirtuAI logo" />
+                    <p>New Chat</p>
+                    <p className="edit-icon">
+                    <CiEdit size='25px'/>
+                    </p>
+                </div>
+                <div id="user-threads">
+                    {threads?.map(thread => (
+                        <ChatHistory key={thread.id} threadId={thread.id} title={thread.title} />
+                    ))}
+                </div>
             </section>
             <section id="messages">
                 <div id="messages-content">

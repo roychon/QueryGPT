@@ -1,5 +1,5 @@
 import { Router} from "express"
-import { createNewThread, deleteThread, generateAIResponse, getUserChats, renameThread } from "../controllers/chat.controller.js"
+import { createNewThread, deleteThread, generateAIResponse, getUserChats, getUserThreads, renameThread } from "../controllers/chat.controller.js"
 import { verifyToken } from "../validate/verifyToken.js"
 
 const chatRouter = Router()
@@ -10,5 +10,6 @@ chatRouter.post("/getUserChats", verifyToken, getUserChats)
 chatRouter.put("/rename-thread", verifyToken, renameThread)
 chatRouter.delete("/delete-thread", verifyToken, deleteThread)
 chatRouter.post("/thread", verifyToken, createNewThread)
+chatRouter.get("/threads", verifyToken, getUserThreads)
 
 export default chatRouter
