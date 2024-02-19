@@ -28,7 +28,7 @@ export const userSignUp = async (req: Request, res: Response, next: NextFunction
         // create jwt token and send back to user
         const payload: payload = {username, password}
         const token = jwt.sign(payload, process.env.COOKIE_SECRET, {expiresIn: process.env.COOKIE_EXPIRY || '7d'})
-        console.log(token)
+        // console.log(token)
         res.cookie(process.env.COOKIE_NAME, token, {
             signed: true,
             httpOnly: true,
@@ -46,7 +46,7 @@ export const userLogIn = async (req: Request, res: Response, next: NextFunction)
     try {
         const { username, password } = req.body
         const user = await User.findOne({username})
-        console.log(user)
+        // console.log(user)
         if (!user) return res.status(404).send("User does not exist")
         const compare = await bcrypt.compare(password, user.password)
         if (!compare) return res.status(401).send("Incorrect password")
