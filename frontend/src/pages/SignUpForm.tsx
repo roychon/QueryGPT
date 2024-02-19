@@ -11,6 +11,7 @@ type FormInput = {
 function SignUpForm() {
     const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
+    const navigate = useNavigate()
     const auth = useAuth()
     const inputRef = useRef<HTMLInputElement | null>(null)
     useEffect(() => {
@@ -24,7 +25,7 @@ function SignUpForm() {
         console.log("Password: ", password)
         try {
             await auth?.signup(username, password)
-            console.log("Success")
+            navigate("/chats")
         } catch (e) {
             // TODO: add a warning message that says user already registered
             console.log("User already registered")

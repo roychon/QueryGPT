@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "../style/form.css";
 import React, { useRef, useState } from "react"
 import { useAuth } from "../context/authContext";
@@ -9,13 +9,13 @@ export default function LogInForm() {
     const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
     const auth = useAuth()
+    const navigate = useNavigate()
 
     const handleSubmit = async (e) => {
         try {
             e.preventDefault()
             await auth?.login(username, password)
-            console.log("successful log in")
-            // TODO: check for cookies and navigate to chats
+            navigate("/chats")
         } catch (e) {
             console.log(e.message)
         }

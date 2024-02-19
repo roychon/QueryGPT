@@ -6,6 +6,7 @@ import Home from './pages/Home'
 import SignUpForm from './pages/SignUpForm'
 import LogInForm from "./pages/LoginForm"
 import Chats from './pages/Chats'
+import ChatDetails from './pages/ChatDetails'
 
 function App() {
   // TODO: add * route and error not found page
@@ -18,6 +19,7 @@ function App() {
         <Route path="/signup" element={<SignUpForm />} /> {/*TODO: create separate pages for signup and login */}
         <Route path="/login" element={<LogInForm />} />
         <Route path="/chats" element={<Chats />} />
+        <Route path="/chats/:threadId" element={<ChatDetails />} />
       </Routes>
     </Router>
   )

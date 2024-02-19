@@ -1,0 +1,14 @@
+.chat-item {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    padding: 25px 20px;
+    /* border: 1px solid white; */
+    margin-top: 10px;
+    width: 600px;
+    border-radius: 6px;
+}
+
+.User {
+    border: 1px solid white;
+}
