@@ -29,7 +29,7 @@ export function AuthProvider({children} :{ children: ReactNode}) {
                 const res = await checkAuthStatus()
                 setUser({username: res.username, password: res.password})
                 setIsLoggedIn(true)
-                console.log("In authContext.tsx: cookies successfully verified")
+                // console.log("In authContext.tsx: cookies successfully verified")
             } catch (e) {
                 console.log(e.message)
             }
