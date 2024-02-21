@@ -27,9 +27,10 @@ export const generateAIResponse = async (req: Request, res: Response, next: Next
 // create new chat thread
 export const createNewThread = async (req: Request, res: Response, next: NextFunction) => {
     try {
+        const { title } = req.body
         const user = await User.findOne({username: res.locals.user.username})
         if (!user) return res.status(401).send("User not registered")
-        const thread = new Thread()
+        const thread = new Thread({title})
         user.threads.push(thread)
         await user.save()
         return res.status(201).json({thread})
@@ -128,7 +129,7 @@ export const getUserThreads = async (req: Request, res: Response, next: NextFunc
 };
 
 
-// helpers
+// TODO: move below helpers to a separate 'helpers' folder
 
 // get sorted chats by updatedAt date from a specific thread
 const getSortedUserChats = async (username: String, threadId: string) => {
