@@ -17,7 +17,6 @@ export const generateAIResponse = async (req: Request, res: Response, next: Next
         const { prompt, threadId } = req.body
         const {username} = res.locals.user
         const {response, conversationPairId} = await getAIResponse(username, prompt, threadId)
-        // console.log(response)
         return res.status(201).json({response,conversationPairId, message: "ok"})
     } catch (e) {
         return res.status(401).send(e.message)
