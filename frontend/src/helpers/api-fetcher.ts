@@ -46,3 +46,12 @@ export const logoutUser = async () => {
         throw new Error(e.message)
     }
 }
+
+export const getAIResponse = async (prompt: string, threadId: string) => {
+    const aiRes_res = await axios.post("/chat", {
+        prompt, 
+        threadId
+    })
+    const aiRes_data = await aiRes_res.data
+    return aiRes_data
+}
