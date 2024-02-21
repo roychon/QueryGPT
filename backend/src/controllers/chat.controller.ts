@@ -92,20 +92,41 @@ export const addThread = async (req: Request, res: Response, next: NextFunction)
 }
 
 
+// export const getUserThreads = async (req: Request, res: Response, next: NextFunction) => {
+//     try {
+//         const user = await User.findOne({ username: res.locals.user.username });
+//         if (!user) return res.status(400).send("User is not registered");
+
+//         // Extract thread IDs and titles from user's threads
+//         const threads = user.threads.map(thread => ({ id: thread._id, title: thread.title }));
+
+//         return res.status(201).json({ threads });
+
+//     } catch (e) {
+//         return res.status(401).send(e.message);
+//     }
+// };
+
 export const getUserThreads = async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const user = await User.findOne({ username: res.locals.user.username });
-        if (!user) return res.status(400).send("User is not registered");
+        const user = await User.aggregate([
+            { $match: { username: res.locals.user.username } }, // Match the user by username
+            { $unwind: "$threads" }, // Deconstruct the threads array
+            { $sort: { "threads.updatedAt": -1 } }, // Sort threads by updatedAt field in descending order
+            { $group: { _id: "$_id", threads: { $push: { _id: "$threads._id", title: "$threads.title" } } } } // Group the threads back into an array
+        ]);
 
-        // Extract thread IDs and titles from user's threads
-        const threads = user.threads.map(thread => ({ id: thread._id, title: thread.title }));
+        if (!user || !user[0]) {
+            return res.status(400).send("User is not registered");
+        }
 
-        return res.status(201).json({ threads });
+        return res.status(200).json({ threads: user[0].threads });
 
     } catch (e) {
-        return res.status(401).send(e.message);
+        return res.status(500).send(e.message);
     }
 };
+
 
 // helpers
 
@@ -134,7 +155,8 @@ const getSortedUserChats = async (username: String, threadId: string) => {
                         }
                     }  } // Push the sorted threads back into an array
                 }
-            }, {
+            }, 
+            {
                 $project: {
                     _id: 0,
                 }
