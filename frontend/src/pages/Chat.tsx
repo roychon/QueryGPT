@@ -3,15 +3,32 @@ import axios from "../helpers/axios"
 import { useAuth } from "../context/authContext"
 import { useNavigate, useParams } from "react-router-dom"
 import "../style/chats.css"
-import Icon from "../components/Icons"
-import { CiEdit } from "react-icons/ci";
 import ChatHistory from "../components/ChatHistory"
 import ConversationPair from "../components/ConversationPair"
+import AddChatButton from "../components/AddChatButton"
+import { getAIResponse } from "../helpers/api-fetcher"
+import ChatPromptSubmitButton from "../components/ChatPromptSubmitButton"
+import DefaultChatMessage from "../components/DefaultChatMessage"
 
+type Thread = {
+    _id: string,
+    title: string
+}
+
+type Chat = {
+    content: string,
+    role: string
+}
+
+type ConversationPair = {
+    _id: string,
+    system: Chat | null,
+    user: Chat
+}
 
 export default function Chats() {
-    const [threads, setThreads] = useState<any[]>([]) // set in side bar
-    const [conversationPairs, setConversationPairs] = useState<any []>([])
+    const [threads, setThreads] = useState<Thread[]>([]) // set in side bar
+    const [conversationPairs, setConversationPairs] = useState<ConversationPair[]>([])
     const [firstSubmit, setFirstSubmit] = useState<boolean>(true) // state on whether it is first submit or not
 
     const auth = useAuth()
@@ -24,33 +41,42 @@ export default function Chats() {
     const handlePromptSubmit = async (e) => {
         e.preventDefault()
 
-        const newThread = firstSubmit ?  await axios.post("/chat/thread") : null
+        const newThread = firstSubmit ?  await axios.post("/chat/thread", {
+            title: prompt
+        }) : null
         const threadId = newThread?.data.thread._id
-
         if (newThread) setThreads(prev => [newThread.data.thread, ...prev])
+
         setPrompt("")
-        // console.log(newThread?.data.thread)
+        setConversationPairs(prev => [...prev, {
+            _id: crypto.randomUUID(),
+            user: {
+                role: "User", 
+                content: prompt
+            },
+            system: null
+        }])
 
         // pass in prompt and get ai, set it in thread
-        const res = await axios.post("/chat", {
-            prompt, 
-            threadId
-        })
-        const data  = await res.data
-        const newConversationPair = {
-            _id: data.conversationPairId,
-            system: {
-                role: "System",
-                content: data.response.response
-            },
-            user: {
-                role: "User",
-                content: prompt
-            }
-        }
+        const ai_res = await getAIResponse(prompt, threadId)
 
-        setConversationPairs(prev => [...prev, newConversationPair])
-       
+        setConversationPairs(prev => { // TODO: potentially clean up efficiency?
+            const lastIndex = prev.length - 1
+            return [...prev.slice(0, prev.length - 1), {
+                ...prev[lastIndex],
+                system: {
+                    content: ai_res.response.response,
+                    role: "System"
+                },
+                _id: ai_res.conversationPairId
+                
+            }];
+        })
+    }
+
+    // TODO: finish creating this function
+    const createNewThread = async () => {
+        console.log("Create a new thread")
     }
     
     const handleLogOut = async () => {
@@ -62,13 +88,15 @@ export default function Chats() {
         }
     }
 
-    // TODO: make a separate useEffect hook for when threadId changes
     useEffect(() => {
         // fetch user chats from threadId and display them
         const getThreadChats = async () => {
             if (threadId) {
-                const res = await axios.post("/chat/getUserChats", {threadId}) // TODO: fix this as get req instead of post req
-                if (res.data) setConversationPairs(res.data)
+                const chats = await axios.post("/chat/getUserChats", {threadId}) // TODO: fix this as get req instead of post req
+                if (chats.data) {
+                    console.log("CONVERSATION PAIRS: ", chats.data)
+                    setConversationPairs(chats.data)
+                } 
                 else setConversationPairs([])
             }
         }
@@ -82,8 +110,8 @@ export default function Chats() {
 
         // initial fetch of threads
         async function getThreads() {
-            const res = await axios.get("/chat/threads")
-            const data = await res.data
+            const threads = await axios.get("/chat/threads")
+            const data = await threads.data
             setThreads(data.threads)
         }
         getThreads()
@@ -93,19 +121,13 @@ export default function Chats() {
     return (
         <section id="chats-container">
             <section id="sidebar">
-                <div id="new-thread-btn">
-                    <img src="../public/appLogo.png" alt="VirtuAI logo" />
-                    <p>New Chat</p>
-                    <p className="edit-icon">
-                    <CiEdit size='25px'/>
-                    </p>
-                </div>
+                <AddChatButton handleClick={createNewThread} />
                 <div id="user-threads">
-                    {/* TODO: change key to something unique */}
                     {threads?.map(thread => (
                         <ChatHistory key={thread._id} threadId={thread._id} title={thread.title} />
                     ))}
                 </div>
+                <button id="logout-btn" onClick={handleLogOut}>Log Out</button>
             </section>
             <section id="messages">
                 <div id="messages-content">
@@ -115,21 +137,11 @@ export default function Chats() {
                                 <ConversationPair pair={pair} key={pair._id} />
                             ))
                         )
-                        :
-                            <>
-                                <img src="../public/appLogo.png" alt="VirtuAI Logo" />
-                                <h1>VirtuAI</h1>
-                                <p style={{marginTop: "10px"}}>Delve into profound perspectives, participate in enriching dialogues, and discover fresh opportunities with VirtuAI.</p>
-                            </>
-                    }
-                    
+                        : <DefaultChatMessage />
+                    } 
                 </div>
                 <div id="input-box">
-                    <form onSubmit={handlePromptSubmit}>
-                        <input ref={inputRef} type="text" placeholder="Enter prompt here..." onChange={e => setPrompt(e.target.value)} value={prompt}/>
-                        <Icon text="Audio" />
-                        <Icon text="File" />
-                    </form>
+                    <ChatPromptSubmitButton inputRef={inputRef} prompt={prompt} setPrompt={setPrompt} handlePromptSubmit={handlePromptSubmit} />
                 </div>
             </section>
         </section>

@@ -1,6 +1,6 @@
 import React, { useEffect, useLayoutEffect } from "react";
 import {useTypewriter, Cursor} from 'react-simple-typewriter'
-import HomeButton from "../components/Button";
+import Button from "../components/Button";
 import "../style/home.css";
 import { useAuth } from "../context/authContext";
 import { useNavigate } from "react-router-dom";
@@ -40,8 +40,8 @@ function Home() {
             <section id="right-home">
                 <h1>Get Started</h1>
                 <p className="button-div" style={{display: "flex", gap: "20px"}}>
-                    <HomeButton text="Sign Up" />
-                    <HomeButton text="Log In" />
+                    <Button text="Sign Up" handleClick= {() => navigate("/signup")}/>
+                    <Button text="Log In" handleClick={() => navigate("/login")} />
                 </p>
                 <p style={{fontSize: "1rem", fontWeight: "500", position: "fixed", bottom: "10%"}}>VirtuAI</p>
             </section>
