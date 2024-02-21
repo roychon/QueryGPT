@@ -74,9 +74,13 @@ export default function Chats() {
         })
     }
 
-    // TODO: finish creating this function
+    
     const createNewThread = async () => {
         console.log("Create a new thread")
+        setFirstSubmit(true)
+        setConversationPairs([])
+        setPrompt("")
+        navigate("/chats")
     }
     
     const handleLogOut = async () => {
