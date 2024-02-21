@@ -7,7 +7,7 @@ export default function ChatItem({text, role}) {
     return (
         <div className={`chat-item ${role}`}>
             {role == "User" ? <PiFinnTheHuman /> : <LiaRobotSolid /> }
-            <p >{text}</p>
+            <p >{text ? text : "Loading..."}</p>
         </div>
     )
 }

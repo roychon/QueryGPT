@@ -4,10 +4,9 @@ import "../style/chats.css"
 
 export default function ChatHistory({threadId, title}) {
     return (
-        <div className="thread-log">
+        
             <NavLink to={`/chats/${threadId}`} className={({isActive}) => isActive ? "active" : ""}>
-                {title}
+               <div className="thread-log">{title}</div> 
             </NavLink>
-        </div>
     )
 }

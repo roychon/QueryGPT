@@ -2,16 +2,18 @@ import React from "react";
 import { NavigateFunction, useNavigate } from "react-router-dom";
 import "../style/button.css"
 
-type BtnTxt = {
-    text: string
+type ButtonType = {
+    text: string,
+    handleClick: () => void
 }
 
-function HomeButton({text}: BtnTxt) {
+// TODO: make this accept a function instead, so it is more of a generic button
+function Button({text, handleClick}: ButtonType) {
     const navigate: NavigateFunction = useNavigate()
     return ( 
-        <button id="home-button" onClick={() => navigate(text == "Sign Up" ? "/signup" : "/login")}>{text}</button>
+        <button id="home-button" onClick={handleClick}>{text}</button>
         // could also use Link as well
     );
 }
 
-export default HomeButton;
+export default Button;
