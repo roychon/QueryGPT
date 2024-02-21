@@ -9,6 +9,9 @@ import AddChatButton from "../components/AddChatButton"
 import { getAIResponse } from "../helpers/api-fetcher"
 import ChatPromptSubmitButton from "../components/ChatPromptSubmitButton"
 import DefaultChatMessage from "../components/DefaultChatMessage"
+// speech recognition
+import "regenerator-runtime"
+import speech, { useSpeechRecognition } from "react-speech-recognition"
 
 type Thread = {
     _id: string,
@@ -29,8 +32,8 @@ type ConversationPair = {
 export default function Chats() {
     const [threads, setThreads] = useState<Thread[]>([]) // set in side bar
     const [conversationPairs, setConversationPairs] = useState<ConversationPair[]>([])
-    const [firstSubmit, setFirstSubmit] = useState<boolean>(true) // state on whether it is first submit or not
-
+    const [isNewThread, setIsNewThread] = useState<boolean>(true) // state on whether it is first submit or not
+    // TODO: change this to isNewThread
     const auth = useAuth()
     const navigate = useNavigate()
 
@@ -38,16 +41,50 @@ export default function Chats() {
     const [prompt, setPrompt] = useState("")
     const {threadId} = useParams()
 
+
+    // speech recognition logic
+    const { listening, transcript } = useSpeechRecognition()
+    useEffect(() => {
+        const submitSpeechPrompt = async () =>{
+            if (!listening && transcript && prompt) {
+                // console.log("PROMPT: ", prompt)
+                setPrompt(transcript)
+                await promptSubmitLogic()
+                // handlePromptSubmit()f
+            } else setPrompt(transcript)
+        }
+        submitSpeechPrompt()
+    }, [transcript, listening])
+
     const handlePromptSubmit = async (e) => {
         e.preventDefault()
+        await promptSubmitLogic()
+    }
 
-        const newThread = firstSubmit ?  await axios.post("/chat/thread", {
+    const handleCreateNewThread = async () => {
+        setIsNewThread(true)
+        setConversationPairs([])
+        setPrompt("")
+        navigate("/chats")
+    }
+    
+    const handleLogOut = async () => {
+        try {
+            const logout = await auth?.logout()
+            navigate("/")
+        } catch (e) {
+            console.log(e.message)
+        }
+    }
+
+    const promptSubmitLogic = async () => {
+        console.log("PROMPT: ", prompt)
+        const newThread = isNewThread ?  await axios.post("/chat/thread", {
             title: prompt
         }) : null
-        const threadId = newThread?.data.thread._id
+        const newThreadId = newThread?.data.thread._id
         if (newThread) setThreads(prev => [newThread.data.thread, ...prev])
-
-        setPrompt("")
+        // const cachePrompt = prompt
         setConversationPairs(prev => [...prev, {
             _id: crypto.randomUUID(),
             user: {
@@ -56,9 +93,11 @@ export default function Chats() {
             },
             system: null
         }])
+        const ai_res = await getAIResponse(prompt, newThreadId ? newThreadId : threadId)
+        setPrompt("")
+        setIsNewThread(false)
 
         // pass in prompt and get ai, set it in thread
-        const ai_res = await getAIResponse(prompt, threadId)
 
         setConversationPairs(prev => { // TODO: potentially clean up efficiency?
             const lastIndex = prev.length - 1
@@ -74,31 +113,13 @@ export default function Chats() {
         })
     }
 
-    
-    const createNewThread = async () => {
-        console.log("Create a new thread")
-        setFirstSubmit(true)
-        setConversationPairs([])
-        setPrompt("")
-        navigate("/chats")
-    }
-    
-    const handleLogOut = async () => {
-        try {
-            const logout = await auth?.logout()
-            navigate("/")
-        } catch (e) {
-            console.log(e.message)
-        }
-    }
-
     useEffect(() => {
+        if (threadId) setIsNewThread(false)
         // fetch user chats from threadId and display them
         const getThreadChats = async () => {
             if (threadId) {
                 const chats = await axios.post("/chat/getUserChats", {threadId}) // TODO: fix this as get req instead of post req
                 if (chats.data) {
-                    console.log("CONVERSATION PAIRS: ", chats.data)
                     setConversationPairs(chats.data)
                 } 
                 else setConversationPairs([])
@@ -125,7 +146,7 @@ export default function Chats() {
     return (
         <section id="chats-container">
             <section id="sidebar">
-                <AddChatButton handleClick={createNewThread} />
+                <AddChatButton handleClick={handleCreateNewThread} />
                 <div id="user-threads">
                     {threads?.map(thread => (
                         <ChatHistory key={thread._id} threadId={thread._id} title={thread.title} />
@@ -145,7 +166,7 @@ export default function Chats() {
                     } 
                 </div>
                 <div id="input-box">
-                    <ChatPromptSubmitButton inputRef={inputRef} prompt={prompt} setPrompt={setPrompt} handlePromptSubmit={handlePromptSubmit} />
+                    <ChatPromptSubmitButton inputRef={inputRef} prompt={prompt} setPrompt={setPrompt} handlePromptSubmit={handlePromptSubmit} onSpeech={(e) =>{e.preventDefault();speech.startListening() } } />
                 </div>
             </section>
         </section>
