@@ -31,7 +31,11 @@ const threadSchema = new mongoose.Schema({
         type: String,
         default: "New chat"
     },
-    conversationPairs: [conversationPairSchema]
+    conversationPairs: [conversationPairSchema],
+    updatedAt: {
+        type: Date,
+        default: Date.now
+    }
 }, { collection: 'threads '})
 
 
@@ -51,11 +55,18 @@ const userSchema = new mongoose.Schema({
 
 // middleware
 conversationPairSchema.pre('save', function(next) {
-    if (this.isNew) {
+    if (this.isNew) { // TODO: change to instead of new, it is updated
         this.updatedAt = new Date();
     }
     next();
 });
+
+threadSchema.pre('save', function(next) {
+    if (this.isNew) {
+        this.updatedAt = new Date()
+    }
+    next()
+})
 
 
 export const User = mongoose.model("User", userSchema)
