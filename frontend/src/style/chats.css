@@ -96,6 +96,11 @@
     margin-left: auto;
 }
 
+/* for when active thread log (on sidebar) */
+.active .thread-log {
+    background-color: rgb(83, 72, 145);
+}
+
 /* side bar */
 #user-threads {
     margin-top: 20px;
@@ -118,3 +123,8 @@
     background-color: rgb(83, 72, 145);
 }
 
+/* logout button */
+#logout-btn {
+    position: fixed;
+    bottom: 0;
+}
