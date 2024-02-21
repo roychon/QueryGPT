@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react"
 import axios from "../helpers/axios"
 import { useAuth } from "../context/authContext"
-import { useNavigate } from "react-router-dom"
+import { useNavigate, useParams } from "react-router-dom"
 import "../style/chats.css"
 import Icon from "../components/Icons"
 import { CiEdit } from "react-icons/ci";
@@ -19,18 +19,17 @@ export default function Chats() {
 
     const inputRef = useRef<HTMLInputElement | null>(null)
     const [prompt, setPrompt] = useState("")
+    const {threadId} = useParams()
 
     const handlePromptSubmit = async (e) => {
         e.preventDefault()
-    
-     
+
         const newThread = firstSubmit ?  await axios.post("/chat/thread") : null
-        console.log("NEW THREAD: ", newThread)
         const threadId = newThread?.data.thread._id
 
-        if (newThread) setThreads(prev => [newThread.data, ...prev])
+        if (newThread) setThreads(prev => [newThread.data.thread, ...prev])
         setPrompt("")
-        console.log(newThread?.data.thread)
+        // console.log(newThread?.data.thread)
 
         // pass in prompt and get ai, set it in thread
         const res = await axios.post("/chat", {
@@ -64,18 +63,27 @@ export default function Chats() {
     }
 
     // TODO: make a separate useEffect hook for when threadId changes
-
+    useEffect(() => {
+        // fetch user chats from threadId and display them
+        const getThreadChats = async () => {
+            if (threadId) {
+                const res = await axios.post("/chat/getUserChats", {threadId}) // TODO: fix this as get req instead of post req
+                if (res.data) setConversationPairs(res.data)
+                else setConversationPairs([])
+            }
+        }
+        getThreadChats()
+    }, [threadId])
 
     // initial fetch of user's threads
     useEffect(() => {
-        const ref = inputRef.current!
+        const ref = inputRef.current! // assert it's not null
         ref.focus()
 
         // initial fetch of threads
         async function getThreads() {
             const res = await axios.get("/chat/threads")
             const data = await res.data
-            // console.log(data)
             setThreads(data.threads)
         }
         getThreads()
@@ -85,7 +93,7 @@ export default function Chats() {
     return (
         <section id="chats-container">
             <section id="sidebar">
-            <div id="new-thread-btn">
+                <div id="new-thread-btn">
                     <img src="../public/appLogo.png" alt="VirtuAI logo" />
                     <p>New Chat</p>
                     <p className="edit-icon">
@@ -93,8 +101,9 @@ export default function Chats() {
                     </p>
                 </div>
                 <div id="user-threads">
-                    {threads?.map((thread, i) => (
-                        <ChatHistory key={i} threadId={thread.id} title={thread.title} />
+                    {/* TODO: change key to something unique */}
+                    {threads?.map(thread => (
+                        <ChatHistory key={thread._id} threadId={thread._id} title={thread.title} />
                     ))}
                 </div>
             </section>
