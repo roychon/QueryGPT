@@ -84,7 +84,7 @@ export default function Chats() {
         }) : null
         const newThreadId = newThread?.data.thread._id
         if (newThread) setThreads(prev => [newThread.data.thread, ...prev])
-        // const cachePrompt = prompt
+        setPrompt("")
         setConversationPairs(prev => [...prev, {
             _id: crypto.randomUUID(),
             user: {
@@ -94,7 +94,6 @@ export default function Chats() {
             system: null
         }])
         const ai_res = await getAIResponse(prompt, newThreadId ? newThreadId : threadId)
-        setPrompt("")
         setIsNewThread(false)
 
         // pass in prompt and get ai, set it in thread

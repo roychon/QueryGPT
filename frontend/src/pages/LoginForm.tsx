@@ -2,6 +2,7 @@ import { Link, useNavigate } from "react-router-dom";
 import "../style/form.css";
 import React, { useRef, useState } from "react"
 import { useAuth } from "../context/authContext";
+import "../style/Link.css"
 
 
 export default function LogInForm() {
@@ -42,7 +43,7 @@ export default function LogInForm() {
                     <button id="sign-up-btn" type="submit">Log In</button>
                 </section>
                 <section className="link">
-                    <p> Don't have an accout? </p>
+                    <p> Don't have an account? </p>
                     <Link to="../signup">Sign up</Link>
                 </section>
                 <section className="auth2">

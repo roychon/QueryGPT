@@ -60,8 +60,8 @@ function SignUpForm() {
                     <Link to="../login">Log In</Link>
                 </section>
                 <section className="auth2">
-                    <button type="button" className="google-btn" >Sign in with Google</button>
-                    <button type="button" className="github-btn" >Sign in with Github</button>
+                    <button type="button" className="google-btn" >Sign up with Google</button>
+                    <button type="button" className="github-btn" >Sign up with Github</button>
                 </section>
             </section>
         </form>
