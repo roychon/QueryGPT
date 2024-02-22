@@ -42,7 +42,9 @@ export const createNewThread = async (req: Request, res: Response, next: NextFun
 // get all chats
 export const getUserChats = async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const chats = await getSortedUserChats(res.locals.user.username, req.body.threadId)
+        const threadIdPattern = /^[0-9a-fA-F]{24}$/; // TODO: use validators library
+        if (!(req.query.threadID as string).match(threadIdPattern)) return res.status(401).send("ThreadId not valid")
+        const chats = await getSortedUserChats(res.locals.user.username, `${req.query.threadID}`)
         return res.status(201).json(chats)
     } catch (e) {
         return res.status(401).send(e.message)
