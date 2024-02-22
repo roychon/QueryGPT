@@ -4,6 +4,7 @@ import { ConversationSummaryBufferMemory } from "langchain/memory"
 import {User, ConversationPair, Chat, Thread} from "../model/User.js"
 import { ConversationChain } from "langchain/chains"
 import mongoose from "mongoose"
+// const { ImageAnnotatorClient } = require('@google-cloud/vision');
 import { rmSync } from "fs";
 
 type chat = {
