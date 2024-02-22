@@ -11,5 +11,6 @@ chatRouter.put("/rename-thread", verifyToken, renameThread)
 chatRouter.delete("/delete-thread", verifyToken, deleteThread)
 chatRouter.post("/thread", verifyToken, createNewThread)
 chatRouter.get("/threads", verifyToken, getUserThreads)
+// chatRouter.post("/hand-to-text", verifyToken, handToText)
 
 export default chatRouter
