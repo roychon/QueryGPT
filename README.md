@@ -51,7 +51,7 @@ This project is a chat application built with React for the frontend, MongoDB an
 
 ### Installation
 
-_Below is an example of how you can run a local version of this app in your machine_
+_Below is an example of how you can run a local version of this app on your machine_
 
 1. Get an **OPEN_AI_API Key** at [https://openai.com/gpt-4]((https://openai.com/gpt-4))
 2. Clone the repo
