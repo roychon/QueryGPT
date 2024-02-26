@@ -1,7 +1,6 @@
 import React, { useEffect, useLayoutEffect } from "react";
 import {useTypewriter, Cursor} from 'react-simple-typewriter'
 import Button from "../components/Button";
-import "../style/home.css";
 import { useAuth } from "../context/authContext";
 import { useNavigate } from "react-router-dom";
 
@@ -27,24 +26,25 @@ function Home() {
     }, [auth?.isLoggedIn])
 
     return ( 
-        <section id="home">
-            <section id={"left-home"}>
-                <nav style={{position: "absolute"}}>
-                    <span >VirtuAI</span>
-                    <img src="../../public/appLogo.png" alt="" />
+        <section className="h-screen w-screen lg:flex overflow-hidden">
+            <section className="h-3/5 bg-dark-purple text-medium-purple px-4 py-3 lg:w-3/5 lg:h-full">
+                <nav className="flex align-middle">
+                    <span className="font-bold text-[20px]">virtual.ai</span>
+                    <img src="../../public/appLogo.png" alt="Virtual.ai Logo" className=" h-[50px] mt-[-10px]"/>
                 </nav>
                 <div style={{display: "flex", alignItems: "center", height: "100%"}}>
-                    <h1 style={{fontSize: "35px", fontWeight: "800"}}>Brainstorm ideas <span style={{display: "block", fontWeight: "400"}}>{text}<Cursor/></span></h1>
+                    <h1 className=" text-[30px] font-bold">Brainstorm ideas <span style={{display: "block", fontWeight: "400"}}>{text}<Cursor/></span></h1>
                 </div>
             </section>
-            <section id="right-home">
-                <h1>Get Started</h1>
-                <p className="button-div" style={{display: "flex", gap: "20px"}}>
-                    <Button text="Sign Up" handleClick= {() => navigate("/signup")}/>
+            <section className="bg-black h-2/5 text-white p-4 text-center lg:w-2/5 lg:h-screen lg:flex lg:flex-col lg:justify-center lg:items-center">
+                <h1 className="font-bold text-2xl py-5">Get Started</h1>
+                <p className="flex gap-5 justify-center">
+                    <Button text="Sign Up" handleClick={() => navigate("/signup")} />
                     <Button text="Log In" handleClick={() => navigate("/login")} />
                 </p>
-                <p style={{fontSize: "1rem", fontWeight: "500", position: "fixed", bottom: "10%"}}>VirtuAI</p>
             </section>
+
+            <p className="text-white fixed text-base font-base bottom-4 px-4">Built with ❤️ by Roy Chon</p>
         </section>
     );
 }
