@@ -1,8 +1,9 @@
 import React, { HTMLInputTypeAttribute, LegacyRef, useEffect, useRef, useState } from "react";
-import "../style/form.css";
+// import "../style/form.css";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "../helpers/axios"
 import { useAuth } from "../context/authContext";
+import { GoogleLogin, googleLogout } from "@react-oauth/google"
 
 type FormInput = {
     text: string
@@ -57,11 +58,13 @@ function SignUpForm() {
                 </section>
                 <section className="link">
                     <p> Already have an accout? </p>
-                    <Link to="../login">Log In</Link>
+                    <Link to="../login" className="text-bright-blue">Log In</Link>
                 </section>
                 <section className="auth2">
-                    <button type="button" className="google-btn" >Sign up with Google</button>
-                    <button type="button" className="github-btn" >Sign up with Github</button>
+                <GoogleLogin
+                        onSuccess={(res) => console.log("Success", res)}
+                        onError={() => console.log("error")}
+                    />
                 </section>
             </section>
         </form>
