@@ -1,11 +1,14 @@
 import React from "react";
 
 export default function DefaultChatMessage() {
-    return (
-        <>
-            <img src="../public/appLogo.png" alt="VirtuAI Logo" />
-            <h1>VirtuAI</h1>
-            <p style={{marginTop: "10px"}}>Delve into profound perspectives, participate in enriching dialogues, and discover fresh opportunities with VirtuAI.</p>
-        </>
-    )
+  return (
+    <>
+      <img
+        src="../public/appLogo.png"
+        alt="VirtuAI Logo"
+        className=" h-[100px]"
+      />
+      <h1 className="font-bold text-3xl top-[-30px]">virtual.ai</h1>
+    </>
+  );
 }
