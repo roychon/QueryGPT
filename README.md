@@ -97,7 +97,14 @@ _Below is an example of how you can run a local version of this app on your mach
 ## Usage
 
 _Below are some screenshots of virtual.ai in the browser_
-![Screenshot of Home Page](https://github.com/roychon/virtual.ai/blob/main/frontend/src/public/sample_home_page.png)
+<p align="center">
+  <img src="https://github.com/roychon/virtual.ai/blob/main/frontend/src/public/sample_login_page.png" width="400">
+</p>
+
+<p align="center">
+  <img src="https://github.com/roychon/virtual.ai/blob/main/frontend/src/public/sample_home_page.png" width="400">
+</p>
+
 
 ![Screenshot of Chats Page](https://github.com/roychon/virtual.ai/blob/main/frontend/src/public/sample_login_page.png)
 
