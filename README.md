@@ -53,7 +53,7 @@ This project is a chat application built with React for the frontend, MongoDB an
 
 _Below is an example of how you can run a local version of this app in your machine_
 
-1. Get a OPEN AI Key at [https://openai.com/gpt-4]((https://openai.com/gpt-4))
+1. Get a **OPEN)AI_API Key** at [https://openai.com/gpt-4]((https://openai.com/gpt-4))
 2. Clone the repo
    ```sh
    git clone https://github.com/roychon/virtual.ai
@@ -63,11 +63,32 @@ _Below is an example of how you can run a local version of this app in your mach
    npm install
    ```
 4. Create your <code>.env</code> file
-5. Enter your API in `config.js`
-   ```js
-   const API_KEY = 'ENTER YOUR API';
+5. Enter your API in `.env`
+   ```sh
+   OPENAI_API_KEY = 'ENTER YOUR API';
    ```
-
+6. Enter your mongodb url in `/env`
+   ```sh
+   MONGODB_URL = 'ENTER YOUR MONGODB URL`
+   ```
+7. Set Cookie details
+   ```sh
+   COOKIE_SECRET = 'ENTER YOUR COOKIE SECRET'
+   COOKIE_NAME = 'ENTER YOUR COOKIE NAME'
+   COOKIE_EXPIRY = 'ENTER YOUR COOKIE EXPIRY DATE'
+   ```
+8. Start frontend server
+   ```sh
+   cd frontend/src
+   npm run dev
+   ```
+9. Start backend server
+    ```sh
+    cd backend
+    npm run dev
+    ```
+10. Once the servers are running, open your web browser and navigate to <code>http://localhost:3000</code> to access the chat application.
+    
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
