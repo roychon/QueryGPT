@@ -2,6 +2,7 @@ import { Link, useNavigate } from "react-router-dom";
 import React, { useRef, useState } from "react";
 import { useAuth } from "../context/authContext";
 import { GoogleLogin, googleLogout } from "@react-oauth/google";
+import "../style/form.css";
 
 export default function LogInForm() {
   const inputRef = useRef<HTMLInputElement | null>(null);

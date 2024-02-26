@@ -9,6 +9,7 @@ import { Link, useNavigate } from "react-router-dom";
 import axios from "../helpers/axios";
 import { useAuth } from "../context/authContext";
 import { GoogleLogin, googleLogout } from "@react-oauth/google";
+import "../style/form.css";
 
 type FormInput = {
   text: string;
