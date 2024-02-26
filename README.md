@@ -53,7 +53,7 @@ This project is a chat application built with React for the frontend, MongoDB an
 
 _Below is an example of how you can run a local version of this app on your machine_
 
-1. Get an **OPEN_AI_API Key** at [https://openai.com/gpt-4]((https://openai.com/gpt-4))
+1. Get an **OPEN_AI_API Key** at <code>[https://openai.com/gpt-4]((https://openai.com/gpt-4))</code>
 2. Clone the repo
    ```sh
    git clone https://github.com/roychon/virtual.ai
