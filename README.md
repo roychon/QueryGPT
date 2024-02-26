@@ -98,12 +98,12 @@ _Below is an example of how you can run a local version of this app on your mach
 
 _Below are some screenshots of virtual.ai in the browser_
 <div>
-  <h1>Login Page</h1>
+  **Login Page**<br>
   <img src="https://github.com/roychon/virtual.ai/blob/main/frontend/src/public/sample_login_page.png" width="400">
 </div>
 
 <div>
-  <h1>Home Page</h1>
+  **Home Page**<br>
   <img src="https://github.com/roychon/virtual.ai/blob/main/frontend/src/public/sample_home_page.png" width="400">
 </div>
 
