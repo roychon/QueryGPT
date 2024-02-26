@@ -4,7 +4,7 @@ The AI chat app for chats, speech, and handwritting.
 
 ![Screenshot of Chats Page](https://github.com/roychon/virtual.ai/blob/main/frontend/src/public/sample_chat.png)
 
-This application provides a modern and interactive platform for real-time communication. Whether you're collaborating with team members, connecting with friends, or seeking assistance, our chat app delivers a seamless and engaging experience.
+This application provides a modern and interactive platform for real-time communication. Whether you're collaborating with team members, connecting with friends, or seeking assistance, this chat app delivers a seamless and engaging experience.
 
 Features:
 * AI Integration: Benefit from AI-powered responses to enhance your chat experience.
@@ -36,12 +36,14 @@ This project is a chat application built with React for the frontend, MongoDB an
 <!-- GETTING STARTED -->
 ## Getting Started
 
-This is an example of how you may give instructions on setting up your project locally.
-To get a local copy up and running follow these simple example steps.
+1. Clone the Repository: Start by cloning the project repository to your local machine.
+2. Install Dependencies: Navigate to the project directory and install frontend and backend dependencies.
+3. Configure Environment Variables: Set up environment variables for MongoDB URI and LangChain API key.
+4. Start the Servers: Launch the frontend and backend servers to run the application locally.
+5. Access the Application: Open your web browser and navigate to http://localhost:3000 to access the chat application.
 
 ### Prerequisites
 
-This is an example of how to list things you need to use the software and how to install them.
 * npm
   ```sh
   npm install npm@latest -g
