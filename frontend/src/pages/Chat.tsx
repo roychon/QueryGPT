@@ -47,17 +47,16 @@ export default function Chats() {
   useEffect(() => {
     const submitSpeechPrompt = async () => {
       if (!listening && transcript && prompt) {
-        // console.log("PROMPT: ", prompt)
+        console.log("PROMPT: ", prompt);
         setPrompt(transcript);
         await promptSubmitLogic();
-        // handlePromptSubmit()f
       } else setPrompt(transcript);
     };
     submitSpeechPrompt();
   }, [transcript, listening]);
 
   const handlePromptSubmit = async (e) => {
-    e.preventDefault();
+    // e.preventDefault();
     await promptSubmitLogic();
   };
 
@@ -78,7 +77,6 @@ export default function Chats() {
   };
 
   const promptSubmitLogic = async () => {
-    console.log("PROMPT: ", prompt);
     const newThread = isNewThread
       ? await axios.post("/chat/thread", {
           title: prompt,
