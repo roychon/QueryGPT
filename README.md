@@ -24,7 +24,7 @@ Use the `BLANK_README.md` to get started.
 This section should list any major frameworks/libraries used to bootstrap your project. Leave any add-ons/plugins for the acknowledgements section. Here are a few examples.
 
 * [![React][React.js]][React-url]
-* [![Langchain][Langchain.com][Langchain-url]
+* [![Langchain][Langchain.com]]
 * [![Typecscript][Typescript.com]][Typescript-url]
 * [![Express][Express.js]][Express-url]
 * [![MongoDB][MongoDB.com]][MongoDB-url]
