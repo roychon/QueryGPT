@@ -6,6 +6,7 @@ import Home from './pages/Home'
 import SignUpForm from './pages/SignUpForm'
 import LogInForm from "./pages/LoginForm"
 import Chat from './pages/Chat'
+import NotFound from './pages/NotFound'
 // import ChatDetails from './pages/ChatDetails'
 
 function App() {
@@ -20,6 +21,7 @@ function App() {
         <Route path="/login" element={<LogInForm />} />
         <Route path="/chats" element={<Chat />} />
         <Route path="/chats/:threadId" element={<Chat />} />
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </Router>
   )

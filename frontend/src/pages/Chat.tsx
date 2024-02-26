@@ -9,6 +9,7 @@ import AddChatButton from "../components/AddChatButton"
 import { getAIResponse } from "../helpers/api-fetcher"
 import ChatPromptSubmitButton from "../components/ChatPromptSubmitButton"
 import DefaultChatMessage from "../components/DefaultChatMessage"
+
 // speech recognition
 import "regenerator-runtime"
 import speech, { useSpeechRecognition } from "react-speech-recognition"
@@ -33,7 +34,6 @@ export default function Chats() {
     const [threads, setThreads] = useState<Thread[]>([]) // set in side bar
     const [conversationPairs, setConversationPairs] = useState<ConversationPair[]>([])
     const [isNewThread, setIsNewThread] = useState<boolean>(true) // state on whether it is first submit or not
-    // TODO: change this to isNewThread
     const auth = useAuth()
     const navigate = useNavigate()
 
@@ -116,12 +116,17 @@ export default function Chats() {
         if (threadId) setIsNewThread(false)
         // fetch user chats from threadId and display them
         const getThreadChats = async () => {
-            if (threadId) {
-                const chats = await axios.post("/chat/getUserChats", {threadId}) // TODO: fix this as get req instead of post req
-                if (chats.data) {
-                    setConversationPairs(chats.data)
+            try {
+                if (threadId) {
+                    const chats = await axios.get(`/chat/getUserChats?threadID=${threadId}`)
+                    if (chats.data) {
+                        setConversationPairs(chats.data)
+                    } 
+                    else setConversationPairs([])
                 } 
-                else setConversationPairs([])
+            } catch (e) {
+                setIsNewThread(true)
+                navigate("/chats")
             }
         }
         getThreadChats()

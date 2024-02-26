@@ -11,7 +11,8 @@ type UserAuth = {
     isLoggedIn: boolean,
     signup: (username: String, password: String) => Promise<void>,
     login: (username: String, password: String) => Promise<void>,
-    logout: () => Promise<void>
+    logout: () => Promise<void>,
+    setUser: any
 }
 
 // create type for context
@@ -73,7 +74,8 @@ export function AuthProvider({children} :{ children: ReactNode}) {
         isLoggedIn,
         signup,
         login,
-        logout
+        logout,
+        setUser
     }
 
     return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
