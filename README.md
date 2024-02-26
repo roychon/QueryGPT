@@ -107,7 +107,7 @@ _For more examples, please refer to the [Documentation](https://example.com)_
 [MongoDB-url]: https://www.mongodb.com/
 [Tailwind.com]: https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white
 [Tailwind-url]: https://tailwindcss.com/
-[Langchain.com]: https://img.shields.io/badge/LangChain-4F0599?style=for-the-badge
+[Langchain.com]: https://img.shields.io/badge/LangChain-4F0599?style=for-the-badge&logo=langchain
 [Langchain-url]: https://www.langchain.com/
 
 
