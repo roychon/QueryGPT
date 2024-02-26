@@ -101,8 +101,7 @@ _Below are some screenshots of virtual.ai in the browser_
   Login Page<br>
   <img src="https://github.com/roychon/virtual.ai/blob/main/frontend/src/public/sample_login_page.png" width="400">
 </div>
-
-
+<br>
 
 <div>
   Home Page<br>
