@@ -24,7 +24,11 @@ Use the `BLANK_README.md` to get started.
 This section should list any major frameworks/libraries used to bootstrap your project. Leave any add-ons/plugins for the acknowledgements section. Here are a few examples.
 
 * [![React][React.js]][React-url]
+* [![Langchain][Langchain.com][Langchain-url]
 * [![Typecscript][Typescript.com]][Typescript-url]
+* [![Express][Express.js]][Express-url]
+* [![MongoDB][MongoDB.com]][MongoDB-url]
+* [![Tailwind.css][Tailwind.com]][Tailwind-url]
 * [![Express][Express.js]][Express-url]
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
@@ -99,5 +103,11 @@ _For more examples, please refer to the [Documentation](https://example.com)_
 [Typescript-url]: https://www.typescriptlang.org/
 [Express.js]: https://img.shields.io/badge/Express.js-404D59?style=for-the-badge
 [Express-url]: https://expressjs.com/
+[MongoDB.com]: 	https://img.shields.io/badge/MongoDB-4EA94B?style=for-the-badge&logo=mongodb&logoColor=white
+[MongoDB-url]: https://www.mongodb.com/
+[Tailwind.com]: https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white
+[Tailwind-url]: https://tailwindcss.com/
+[Langchain.com]: https://img.shields.io/badge/LangChain-4F0599?style=for-the-badge
+[Langchain-url]: https://www.langchain.com/
 
 
