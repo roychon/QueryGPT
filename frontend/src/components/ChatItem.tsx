@@ -1,5 +1,4 @@
 import React from "react";
-import "../style/chatitem.css";
 import { PiFinnTheHuman } from "react-icons/pi";
 import { LiaRobotSolid } from "react-icons/lia";
 

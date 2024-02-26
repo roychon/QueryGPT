@@ -2,7 +2,6 @@ import React, { useEffect, useRef, useState } from "react";
 import axios from "../helpers/axios";
 import { useAuth } from "../context/authContext";
 import { useNavigate, useParams } from "react-router-dom";
-import "../style/chats.css";
 import ChatHistory from "../components/ChatHistory";
 import ConversationPair from "../components/ConversationPair";
 import AddChatButton from "../components/AddChatButton";

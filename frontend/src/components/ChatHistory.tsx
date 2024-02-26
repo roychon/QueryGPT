@@ -1,6 +1,5 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
-import "../style/chats.css";
 
 export default function ChatHistory({ threadId, title }) {
   return (
