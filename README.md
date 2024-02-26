@@ -7,11 +7,11 @@ The AI chat app for chats, speech, and handwritting.
 This application provides a modern and interactive platform for real-time communication. Whether you're collaborating with team members, connecting with friends, or seeking assistance, this chat app delivers a seamless and engaging experience.
 
 Features:
-* AI Integration: Benefit from AI-powered responses to enhance your chat experience.
-* Speech Recognition: Utilize speech recognition technology to convert spoken words into text messages, enabling hands-free communication.
-* Handwriting Recognition: Seamlessly integrate handwriting recognition to allow users to input messages using a stylus or touchscreen device.
-* Thread Management: Organize discussions into threads for better clarity and organization.
-* User Authentication: Secure your conversations with user authentication, ensuring privacy and confidentiality.
+* **AI Integration:** Benefit from AI-powered responses to enhance your chat experience.
+* **Speech Recognition:** Utilize speech recognition technology to convert spoken words into text messages, enabling hands-free communication.
+* **Handwriting Recognition:** Seamlessly integrate handwriting recognition to allow users to input messages using a stylus or touchscreen device.
+* **Thread Management:** Organize discussions into threads for better clarity and organization.
+* **User Authentication:** Secure your conversations with user authentication, ensuring privacy and confidentiality.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -36,11 +36,11 @@ This project is a chat application built with React for the frontend, MongoDB an
 <!-- GETTING STARTED -->
 ## Getting Started
 
-1. Clone the Repository: Start by cloning the project repository to your local machine.
-2. Install Dependencies: Navigate to the project directory and install frontend and backend dependencies.
-3. Configure Environment Variables: Set up environment variables for MongoDB URI and LangChain API key.
-4. Start the Servers: Launch the frontend and backend servers to run the application locally.
-5. Access the Application: Open your web browser and navigate to http://localhost:3000 to access the chat application.
+1. **Clone the Repository:** Start by cloning the project repository to your local machine.
+2. **Install Dependencies:** Navigate to the project directory and install frontend and backend dependencies.
+3. **Configure Environment Variables:** Set up environment variables for MongoDB URI and LangChain API key.
+4. **Start the Servers:** Launch the frontend and backend servers to run the application locally.
+5. **Access the Application:** Open your web browser and navigate to http://localhost:3000 to access the chat application.
 
 ### Prerequisites
 
@@ -51,18 +51,19 @@ This project is a chat application built with React for the frontend, MongoDB an
 
 ### Installation
 
-_Below is an example of how you can instruct your audience on installing and setting up your app. This template doesn't rely on any external dependencies or services._
+_Below is an example of how you can run a local version of this app in your machine_
 
-1. Get a free API Key at [https://example.com](https://example.com)
+1. Get a OPEN AI Key at [https://openai.com/gpt-4]((https://openai.com/gpt-4))
 2. Clone the repo
    ```sh
-   git clone https://github.com/your_username_/Project-Name.git
+   git clone https://github.com/roychon/virtual.ai
    ```
 3. Install NPM packages
    ```sh
    npm install
    ```
-4. Enter your API in `config.js`
+4. Create your <code>.env</code> file
+5. Enter your API in `config.js`
    ```js
    const API_KEY = 'ENTER YOUR API';
    ```
