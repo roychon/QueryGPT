@@ -27,7 +27,6 @@ This project is a chat application built with React for the frontend, MongoDB an
 * [![Express][Express.js]][Express-url]
 * [![MongoDB][MongoDB.com]][MongoDB-url]
 * [![Tailwind.css][Tailwind.com]][Tailwind-url]
-* [![Express][Express.js]][Express-url]
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
