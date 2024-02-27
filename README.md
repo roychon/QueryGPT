@@ -67,7 +67,7 @@ _Below is an example of how you can run a local version of this app on your mach
    ```sh
    OPENAI_API_KEY = 'ENTER YOUR API';
    ```
-6. Enter your mongodb url in `/env`
+6. Enter your mongodb url in `.env`
    ```sh
    MONGODB_URL = 'ENTER YOUR MONGODB URL`
    ```
