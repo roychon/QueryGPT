@@ -1,6 +1,6 @@
 <!-- ABOUT THE PROJECT -->
 ## Virtual.AI
-The AI chat app for chats, speech, and handwritting.
+The AI app system for chats, speech, and handwritting.
 
 ![Screenshot of Chats Page](https://github.com/roychon/virtual.ai/blob/main/frontend/src/public/sample_chat.png)
 
