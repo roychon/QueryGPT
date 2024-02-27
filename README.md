@@ -87,7 +87,7 @@ _Below is an example of how you can run a local version of this app on your mach
     cd backend
     npm run dev
     ```
-10. Once the servers are running, open your web browser and navigate to <code>http://localhost:3000</code> to access the chat application.
+10. Once the servers are running, open your web browser and navigate to <code>http://localhost:5173</code> to access the chat application.
     
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
