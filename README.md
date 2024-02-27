@@ -63,11 +63,11 @@ _Below is an example of how you can run a local version of this app on your mach
    npm install
    ```
 4. Create your <code>.env</code> file
-5. Enter your API in `.env`
+5. Enter your API in `.env` file
    ```sh
    OPENAI_API_KEY = 'ENTER YOUR API';
    ```
-6. Enter your mongodb url in `.env`
+6. Enter your mongodb url in `.env` file
    ```sh
    MONGODB_URL = 'ENTER YOUR MONGODB URL`
    ```
