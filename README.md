@@ -40,7 +40,7 @@ This project is a chat application built with React for the frontend, MongoDB an
 2. **Install Dependencies:** Navigate to the project directory and install frontend and backend dependencies.
 3. **Configure Environment Variables:** Set up environment variables for MongoDB URI and LangChain API key.
 4. **Start the Servers:** Launch the frontend and backend servers to run the application locally.
-5. **Access the Application:** Open your web browser and navigate to http://localhost:3000 to access the chat application.
+5. **Access the Application:** Open your web browser and navigate to http://localhost:5173 to access the chat application.
 
 ### Prerequisites
 
