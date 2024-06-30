@@ -1,5 +1,5 @@
 <!-- ABOUT THE PROJECT -->
-## Omni.AI
+## QueryGPT
 The AI app service for chats, speech, and handwritting.
 
 ![Screenshot of Chats Page](https://github.com/roychon/virtual.ai/blob/main/frontend/src/public/sample_chat.png)
